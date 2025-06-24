@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobileprogrammingp9/page/list_page.dart';
+import 'package:mobileprogrammingp9/page/notes_page.dart';
 import 'package:mobileprogrammingp9/page/profile_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:mobileprogrammingp9/page/checkbox_page.dart';
@@ -30,7 +30,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final List<Widget> _page = [ProfilePage(),ListPage(),CheckboxPage(),AutocompletePage()];
+  final List<Widget> _page = [ProfilePage(),NotesPage(),CheckboxPage(),AutocompletePage()];
 
   var currentPage = 0;
 
@@ -62,8 +62,8 @@ class _MyAppState extends State<MyApp> {
               selectedColor: Colors.blue,
             ),
             SalomonBottomBarItem(
-              icon: Icon(Icons.list),
-              title: Text("List"),
+              icon: Icon(Icons.notes),
+              title: Text("Catatan"),
               selectedColor: Colors.blue,
             ),
             SalomonBottomBarItem(

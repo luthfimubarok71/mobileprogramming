@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   salomon_bottom_bar: ^3.3.2
   shared_preferences: ^2.2.2
+  image_picker: ^0.8.7+4
+  path_provider: ^2.0.11
+  fl_chart: ^0.66.2
 
 dev_dependencies:
   flutter_test:
