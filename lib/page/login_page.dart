@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobileprogrammingp9/main.dart';
+import 'package:mobileprogrammingp9/page/register_page.dart'; // jangan lupa import
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum ButtonState { init, loading, done }
 
@@ -15,14 +17,18 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   ButtonState state = ButtonState.init;
 
-  void _handleLogin() async {
+  Future<void> _handleLogin() async {
     setState(() => state = ButtonState.loading);
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
-    final username = usernameController.text;
-    final password = passwordController.text;
+    final prefs = await SharedPreferences.getInstance();
+    final savedUsername = prefs.getString('username');
+    final savedPassword = prefs.getString('password');
 
-    if (username == 'admin' && password == 'admin') {
+    final inputUsername = usernameController.text;
+    final inputPassword = passwordController.text;
+
+    if (inputUsername == savedUsername && inputPassword == savedPassword) {
       setState(() => state = ButtonState.done);
       await Future.delayed(const Duration(seconds: 1));
 
@@ -80,6 +86,16 @@ class _LoginPageState extends State<LoginPage> {
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
                     child: buildButton(),
+                  ),
+                  const SizedBox(height: 12),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const RegisterPage()),
+                      );
+                    },
+                    child: const Text("Belum punya akun? Register"),
                   ),
                 ],
               ),
