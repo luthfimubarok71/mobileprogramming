@@ -1,7 +1,7 @@
+// login_page.dart
 import 'package:flutter/material.dart';
-import 'package:mobileprogrammingp9/main.dart';
-import 'package:mobileprogrammingp9/page/register_page.dart'; // jangan lupa import
 import 'package:shared_preferences/shared_preferences.dart';
+import 'otp_page.dart';
 
 enum ButtonState { init, loading, done }
 
@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MyApp()),
+        MaterialPageRoute(builder: (context) => const OtpPage()),
       );
     } else {
       setState(() => state = ButtonState.init);
@@ -59,10 +59,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'Login',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
+                  const Text('Login', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 24),
                   TextField(
                     controller: usernameController,
@@ -86,16 +83,6 @@ class _LoginPageState extends State<LoginPage> {
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
                     child: buildButton(),
-                  ),
-                  const SizedBox(height: 12),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const RegisterPage()),
-                      );
-                    },
-                    child: const Text("Belum punya akun? Register"),
                   ),
                 ],
               ),

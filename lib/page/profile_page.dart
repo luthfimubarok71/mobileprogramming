@@ -125,25 +125,57 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   }
 
   Widget _buildActivityChart() {
+    final dummyData = <String, int>{
+      'Sen': 2,
+      'Sel': 1,
+      'Rab': 3,
+      'Kam': 0,
+      'Jum': 4,
+      'Sab': 2,
+      'Min': 1,
+    };
+
+    final days = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+    final spots = List.generate(
+      days.length,
+      (i) => FlSpot(i.toDouble(), dummyData[days[i]]!.toDouble()),
+    );
+
     return LineChart(
       LineChartData(
+        minY: 0,
         gridData: FlGridData(show: true),
-        titlesData: FlTitlesData(show: true),
+        titlesData: FlTitlesData(
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: (value, _) {
+                int idx = value.toInt();
+                return Text(
+                  days[idx],
+                  style: TextStyle(fontSize: 10),
+                );
+              },
+            ),
+          ),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              interval: 1,
+              getTitlesWidget: (value, _) => Text(value.toInt().toString()),
+            ),
+          ),
+          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        ),
         borderData: FlBorderData(show: true),
         lineBarsData: [
           LineChartBarData(
-            spots: [
-              FlSpot(1, 2),
-              FlSpot(2, 3),
-              FlSpot(3, 1),
-              FlSpot(4, 4),
-              FlSpot(5, 3),
-              FlSpot(6, 5),
-              FlSpot(7, 2),
-            ],
+            spots: spots,
             isCurved: true,
             color: Colors.blue,
             barWidth: 4,
+            belowBarData: BarAreaData(show: true, color: Colors.blue.withOpacity(0.2)),
             dotData: FlDotData(show: true),
           )
         ],
