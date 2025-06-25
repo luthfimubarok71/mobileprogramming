@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobileprogrammingp9/page/filter_search_page.dart';
-import 'package:mobileprogrammingp9/page/notes_page.dart';
-import 'package:mobileprogrammingp9/page/profile_page.dart';
+import 'package:my_daily_life/page/filter_search_page.dart';
+import 'package:my_daily_life/page/notes_page.dart';
+import 'package:my_daily_life/page/profile_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:mobileprogrammingp9/page/login_page.dart';
+import 'package:my_daily_life/page/login_page.dart';
 
 void main() {
   runApp(const StartApp());
@@ -25,6 +25,7 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyAppState createState() => _MyAppState();
 }
 

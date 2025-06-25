@@ -45,7 +45,10 @@ class _FilterSearchPageState extends State<FilterSearchPage> {
       result = allItems;
     }
     setState(() {
-      filteredItems = result.where((item) => item.toLowerCase().contains(searchQuery.toLowerCase())).toList();
+      filteredItems = result
+          .where((item) =>
+              item.toLowerCase().contains(searchQuery.toLowerCase()))
+          .toList();
     });
   }
 
@@ -64,7 +67,7 @@ class _FilterSearchPageState extends State<FilterSearchPage> {
                   onSelected: (value) {
                     setState(() {
                       searchQuery = value;
-                      _applyFilter(); // atau logika apapun yg kamu mau
+                      _applyFilter();
                     });
                   },
                 ),
@@ -75,31 +78,86 @@ class _FilterSearchPageState extends State<FilterSearchPage> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              FilterChip(
-                label: const Text("Proyek"),
-                selected: filterProyek,
-                onSelected: (val) {
-                  setState(() {
-                    filterProyek = val;
-                    _applyFilter();
-                  });
-                },
+          const SizedBox(height: 20),
+          // Checkbox Proyek
+          Card(
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  filterProyek = !filterProyek;
+                  _applyFilter();
+                });
+              },
+              child: SizedBox(
+                height: 70,
+                width: 250,
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: filterProyek,
+                      onChanged: (val) {
+                        setState(() {
+                          filterProyek = val!;
+                          _applyFilter();
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.black,
+                    ),
+                    const SizedBox(width: 10),
+                    const Image(
+                      image: NetworkImage(
+                          'https://cdn-icons-png.flaticon.com/512/9912/9912615.png'),
+                      height: 40,
+                      width: 40,
+                    ),
+                    const SizedBox(width: 10),
+                    const Text('Proyek', style: TextStyle(fontSize: 18)),
+                  ],
+                ),
               ),
-              FilterChip(
-                label: const Text("Skill"),
-                selected: filterSkill,
-                onSelected: (val) {
-                  setState(() {
-                    filterSkill = val;
-                    _applyFilter();
-                  });
-                },
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          // Checkbox Skills
+          Card(
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  filterSkill = !filterSkill;
+                  _applyFilter();
+                });
+              },
+              child: SizedBox(
+                height: 70,
+                width: 250,
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: filterSkill,
+                      onChanged: (val) {
+                        setState(() {
+                          filterSkill = val!;
+                          _applyFilter();
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.black,
+                    ),
+                    const SizedBox(width: 10),
+                    const Image(
+                      image: NetworkImage(
+                          'https://cdn-icons-png.flaticon.com/512/4727/4727496.png'),
+                      height: 40,
+                      width: 40,
+                    ),
+                    const SizedBox(width: 10),
+                    const Text('Skills', style: TextStyle(fontSize: 18)),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
           const SizedBox(height: 20),
           Expanded(
@@ -130,7 +188,7 @@ class MySearchDelegate extends SearchDelegate {
 
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         onPressed: () => close(context, null),
       );
 
@@ -144,7 +202,7 @@ class MySearchDelegate extends SearchDelegate {
               query = '';
             }
           },
-          icon: Icon(Icons.clear),
+          icon: const Icon(Icons.clear),
         ),
       ];
 
@@ -172,7 +230,7 @@ class MySearchDelegate extends SearchDelegate {
           title: Text(suggestion),
           onTap: () {
             query = suggestion;
-            onSelected(query); // panggil callback di sini
+            onSelected(query);
             close(context, null);
           },
         );

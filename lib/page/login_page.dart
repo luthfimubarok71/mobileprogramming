@@ -1,5 +1,6 @@
 // login_page.dart
 import 'package:flutter/material.dart';
+import 'package:my_daily_life/page/register_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'otp_page.dart';
 
@@ -33,11 +34,13 @@ class _LoginPageState extends State<LoginPage> {
       await Future.delayed(const Duration(seconds: 1));
 
       Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(builder: (context) => const OtpPage()),
       );
     } else {
       setState(() => state = ButtonState.init);
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Login gagal, username/password salah')),
       );
@@ -57,35 +60,49 @@ class _LoginPageState extends State<LoginPage> {
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('Login', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 24),
-                  TextField(
-                    controller: usernameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Username',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.person),
-                    ),
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Login', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 24),
+                TextField(
+                  controller: usernameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Username',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.person),
                   ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: passwordController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.lock),
-                    ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.lock),
                   ),
-                  const SizedBox(height: 24),
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    child: buildButton(),
+                ),
+                const SizedBox(height: 24),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: buildButton(),
+                ),
+                const SizedBox(height: 12),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const RegisterPage()),
+                    );
+                  },
+                  child: const Text(
+                    'Belum punya akun? Daftar di sini',
+                    style: TextStyle(color: Colors.indigo),
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
+
             ),
           ),
         ),

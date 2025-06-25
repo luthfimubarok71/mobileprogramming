@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_daily_life/main.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-import 'package:mobileprogrammingp9/main.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({super.key});
@@ -9,40 +9,26 @@ class OtpPage extends StatefulWidget {
   State<OtpPage> createState() => _OtpPageState();
 }
 
-class _OtpPageState extends State<OtpPage> with CodeAutoFill {
-  String? _code;
+class _OtpPageState extends State<OtpPage> {
+  String _code = '';
+  final String _expectedOtp = '123456';
 
   @override
   void initState() {
     super.initState();
-    listenForCode();
+    _simulateOtpSend();
   }
 
-  @override
-  void codeUpdated() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        _code = code; // `code` di sini adalah properti dari CodeAutoFill
-      });
-
-      if (_code == '123456') {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const MyApp()),
-        );
-      }
-    });
-  }
-
-
-  @override
-  void dispose() {
-    cancel(); // dari CodeAutoFill
-    super.dispose();
+  Future<void> _simulateOtpSend() async {
+    await Future.delayed(const Duration(seconds: 2));
+    final signature = await SmsAutoFill().getAppSignature;
+    debugPrint('📩 [Simulasi SMS]');
+    debugPrint('<#> Your MyDailyLife OTP is: $_expectedOtp');
+    debugPrint(signature);
   }
 
   void _verifyOtp() {
-    if (_code != null && _code!.length == 6) {
+    if (_code == _expectedOtp) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const MyApp()),
@@ -63,27 +49,24 @@ class _OtpPageState extends State<OtpPage> with CodeAutoFill {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Masukkan kode OTP yang dikirim via SMS'),
+            const Text(
+              'Masukkan kode OTP yang dikirim via SMS',
+              style: TextStyle(fontSize: 18),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 16),
             PinFieldAutoFill(
               codeLength: 6,
+              currentCode: _code,
               onCodeChanged: (code) {
                 if (code != null && code.length == 6) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    if (!mounted) return;
-                    setState(() {
-                      _code = code;
-                    });
-
-                    if (_code == '123456') {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => const MyApp()), // atau halaman home kamu
-                      );
-                    }
-                  });
+                  setState(() => _code = code);
                 }
               },
+              decoration: UnderlineDecoration(
+                textStyle: const TextStyle(fontSize: 24, color: Colors.black),
+                colorBuilder: FixedColorBuilder(Colors.indigo),
+              ),
             ),
             const SizedBox(height: 24),
             ElevatedButton(
